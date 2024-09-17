@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TB-303 Emulator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body> 
+  <!-- Start Audio Button -->
+  <button id="start-audio" aria-label="Start Audio">Start Audio</button>
+
+  <!-- Main Synthesizer Interface -->
+  <main id="synth" aria-hidden="true">
+    <!-- Header Section -->
+    <header id="header">
+      <h1>TB-303 Emulator</h1>
+    </header>
+
+    <!-- Control Panel Section -->
+    <section id="control-panel">
+      <!-- Oscillator Controls -->
+      <fieldset class="section" id="oscillator-section">
+        <legend>Oscillator</legend>
+
+        <!-- Waveform Selector -->
+        <div class="control">
+          <label for="waveform">Waveform:</label>
+          <select id="waveform" name="waveform" aria-label="Select Waveform">
+            <option value="sawtooth">Sawtooth</option>
+            <option value="square">Square</option>
+          </select>
+        </div>
+
+        <!-- Tuning Slider -->
+        <div class="control">
+          <label for="tuning">Tuning:</label>
+          <input type="range" id="tuning" name="tuning" min="-12" max="12" value="0" aria-valuemin="-12" aria-valuemax="12" aria-valuenow="0" aria-label="Tuning Slider">
+          <span id="tuning-value" aria-live="polite">0</span>
+        </div>
+
+        <!-- Master Tune Slider -->
+        <div class="control">
+          <label for="master-tune">Master Tune:</label>
+          <input type="range" id="master-tune" name="master-tune" min="-100" max="100" value="0" aria-valuemin="-100" aria-valuemax="100" aria-valuenow="0" aria-label="Master Tune Slider">
+          <span id="master-tune-value" aria-live="polite">0</span>
+        </div>
+      </fieldset>
+
+      <!-- Filter Controls -->
+      <fieldset class="section" id="filter-section">
+        <legend>Filter</legend>
+
+        <!-- Cutoff Slider -->
+        <div class="control">
+          <label for="cutoff">Cutoff:</label>
+          <input type="range" id="cutoff" name="cutoff" min="200" max="5000" value="1000" aria-valuemin="200" aria-valuemax="5000" aria-valuenow="1000" aria-label="Cutoff Frequency Slider">
+          <span id="cutoff-value" aria-live="polite">1000 Hz</span>
+        </div>
+
+        <!-- Resonance Slider -->
+        <div class="control">
+          <label for="resonance">Resonance:</label>
+          <input type="range" id="resonance" name="resonance" min="0" max="30" value="15" aria-valuemin="0" aria-valuemax="30" aria-valuenow="15" aria-label="Resonance Slider">
+          <span id="resonance-value" aria-live="polite">15</span>
+        </div>
+
+        <!-- Envelope Modulation Slider -->
+        <div class="control">
+          <label for="env-mod">Env Mod:</label>
+          <input type="range" id="env-mod" name="env-mod" min="0" max="1" step="0.01" value="0.5" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.5" aria-label="Envelope Modulation Slider">
+          <span id="env-mod-value" aria-live="polite">0.5</span>
+        </div>
+
+        <!-- Decay Slider -->
+        <div class="control">
+          <label for="decay">Decay:</label>
+          <input type="range" id="decay" name="decay" min="0.1" max="2" step="0.1" value="0.5" aria-valuemin="0.1" aria-valuemax="2" aria-valuenow="0.5" aria-label="Decay Time Slider">
+          <span id="decay-value" aria-live="polite">0.5 s</span>
+        </div>
+
+        <!-- Accent Slider -->
+        <div class="control">
+          <label for="accent">Accent:</label>
+          <input type="range" id="accent" name="accent" min="0" max="1" step="0.1" value="0.7" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.7" aria-label="Accent Level Slider">
+          <span id="accent-value" aria-live="polite">0.7</span>
+        </div>
+
+        <!-- VCF Trim Slider -->
+        <div class="control">
+          <label for="vcf-trim">VCF Trim:</label>
+          <input type="range" id="vcf-trim" name="vcf-trim" min="-1000" max="1000" value="0" aria-valuemin="-1000" aria-valuemax="1000" aria-valuenow="0" aria-label="VCF Trim Slider">
+          <span id="vcf-trim-value" aria-live="polite">0</span>
+        </div>
+
+        <!-- Vintage Condition Slider -->
+        <div class="control">
+          <label for="vintage-condition">Vintage Condition:</label>
+          <input type="range" id="vintage-condition" name="vintage-condition" min="0" max="1" step="0.1" value="0.5" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.5" aria-label="Vintage Condition Slider">
+          <span id="vintage-condition-value" aria-live="polite">0.5</span>
+        </div>
+      </fieldset>
+
+      <!-- Effects Controls -->
+      <fieldset class="section" id="effects-section">
+        <legend>Effects</legend>
+
+        <!-- Distortion Slider -->
+        <div class="control">
+          <label for="distortion">Distortion:</label>
+          <input type="range" id="distortion" name="distortion" min="0" max="100" value="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Distortion Slider">
+          <span id="distortion-value" aria-live="polite">0.0</span>
+        </div>
+
+        <!-- Delay Time Slider -->
+        <div class="control">
+          <label for="delay-time">Delay Time:</label>
+          <input type="range" id="delay-time" name="delay-time" min="0" max="1" step="0.01" value="0.3" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0.3" aria-label="Delay Time Slider">
+          <span id="delay-time-value" aria-live="polite">300 ms</span>
+        </div>
+
+        <!-- Feedback Slider -->
+        <div class="control">
+          <label for="feedback">Feedback:</label>
+          <input type="range" id="feedback" name="feedback" min="0" max="0.9" step="0.1" value="0.5" aria-valuemin="0" aria-valuemax="0.9" aria-valuenow="0.5" aria-label="Feedback Slider">
+          <span id="feedback-value" aria-live="polite">0.5</span>
+        </div>
+      </fieldset>
+    </section>
+
+    <!-- Sequencer Panel Section -->
+    <section id="sequencer-panel">
+      <h2>Sequencer</h2>
+
+      <!-- Sequencer Grid -->
+      <div id="sequence-grid" role="grid" aria-label="Sequencer Grid">
+        <!-- Sequencer steps will be generated by JavaScript -->
+      </div>
+
+      <!-- Sequencer Controls -->
+      <div class="sequencer-controls" role="group" aria-label="Sequencer Controls">
+        <button id="start" aria-label="Start Sequencer">Start</button>
+        <button id="stop" aria-label="Stop Sequencer">Stop</button>
+
+        <!-- Tempo Control -->
+        <label for="tempo">Tempo (BPM):</label>
+        <input type="number" id="tempo" name="tempo" min="60" max="200" value="120" aria-label="Tempo Input">
+
+        <!-- Playback Mode Selector -->
+        <label for="playback-mode">Playback Mode:</label>
+        <select id="playback-mode" name="playback-mode" aria-label="Playback Mode Selector">
+          <option value="forward">Forward</option>
+          <option value="reverse">Reverse</option>
+          <option value="fwrev">FWD & REV</option>
+          <option value="invert">Invert</option>
+          <option value="random">Random</option>
+        </select>
+
+        <!-- Pattern Management Buttons -->
+        <button id="edit-pattern" aria-label="Edit Pattern">Edit Pattern</button>
+        <button id="randomize-pattern" aria-label="Randomize Pattern">Randomize Pattern</button>
+        <button id="save-pattern" aria-label="Save Pattern">Save Pattern</button>
+        <button id="load-pattern" aria-label="Load Pattern">Load Pattern</button>
+        <button id="export-pattern" aria-label="Export Pattern">Export Pattern</button>
+      </div>
+    </section>
+
+    <!-- Recording Controls -->
+    <section id="recording-controls">
+      <button id="start-recording" aria-label="Start Recording">Start Recording</button>
+      <button id="stop-recording" aria-label="Stop Recording" disabled>Stop Recording</button>
+      <div id="recording-indicator" aria-label="Recording Indicator" aria-live="polite" style="display: none;">🔴 Recording...</div>
+    </section>
+
+    <!-- Pattern Editor Modal -->
+    <div id="pattern-editor-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="pattern-editor-title">
+      <div class="modal-content">
+        <button class="close-button" aria-label="Close Pattern Editor">&times;</button>
+        <h2 id="pattern-editor-title">Edit Pattern</h2>
+        <div id="pattern-editor-grid" role="grid" aria-label="Pattern Editor Grid">
+          <!-- Grid for editing patterns -->
+        </div>
+        <button id="save-pattern-changes" aria-label="Save Pattern Changes">Save Changes</button>
+      </div>
+    </div>
+
+    <!-- JavaScript File -->
+    <script src="script.js"></script>
+  </main>
+</body>
+</html>
