@@ -11,6 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   const audioContext = new AudioContext();
+  const scales = {
+  "major": [0, 2, 4, 5, 7, 9, 11],
+  "minor": [0, 2, 3, 5, 7, 8, 10],
+  "dorian": [0, 2, 3, 5, 7, 9, 10],
+  "phrygian": [0, 1, 3, 5, 7, 8, 10],
+  "lydian": [0, 2, 4, 6, 7, 9, 11],
+  "mixolydian": [0, 2, 4, 5, 7, 9, 10],
+  "aeolian": [0, 2, 3, 5, 7, 8, 10], // same as minor
+  "locrian": [0, 1, 3, 5, 6, 8, 10]
+};
 
   // =====================================
   // 2. Synthesizer Components Initialization
@@ -123,6 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const stopRecordingButton = document.getElementById('stop-recording');
   const recordingIndicator = document.getElementById('recording-indicator');
 
+  const rootNoteSelect = document.getElementById('root-note');
+  const scaleSelect = document.getElementById('scale');
+  const applyKeyButton = document.getElementById('apply-key');
+
   // =====================================
   // 5. Event Listeners Setup
   // =====================================
@@ -198,6 +212,12 @@ masterTuneSlider.addEventListener('input', () => {
   // Recording Controls Event Listeners
   startRecordingButton.addEventListener('click', startRecording);
   stopRecordingButton.addEventListener('click', stopRecording);
+
+  applyKeyButton.addEventListener('click', () => {
+  const rootNote = rootNoteSelect.value;
+  const scale = scaleSelect.value;
+  applyKeyToSequence(rootNote, scale);
+});
 
 	/**
  * Calculates the frequency for a given note and octave, including tuning adjustments.
@@ -289,6 +309,44 @@ function getAdjustedFrequency(note, octave) {
       oscillator.type = waveformSelect.value;
     }
   }
+
+function applyKeyToSequence(rootNote, scale) {
+  const validNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const rootNoteIndex = validNotes.indexOf(rootNote);
+  const scaleIntervals = scales[scale];
+
+  // Iterate through the sequence and adjust the notes to fit the selected scale
+  sequence.forEach((step) => {
+    if (step.active) {
+      // Calculate the note's position relative to the root note and scale
+      const noteIndex = validNotes.indexOf(step.note);
+      const relativeIndex = (noteIndex - rootNoteIndex + 12) % 12; // Ensure positive
+      const nearestScaleDegree = findNearestScaleDegree(relativeIndex, scaleIntervals);
+      
+      // Adjust the note in the sequence
+      step.note = validNotes[(rootNoteIndex + nearestScaleDegree) % 12];
+    }
+  });
+
+  renderSequencerGrid(); // Re-render the sequencer with the updated notes
+}
+
+function findNearestScaleDegree(noteIndex, scaleIntervals) {
+  let nearestDegree = scaleIntervals[0];
+  let minDistance = Math.abs(scaleIntervals[0] - noteIndex);
+
+  for (let i = 1; i < scaleIntervals.length; i++) {
+    const distance = Math.abs(scaleIntervals[i] - noteIndex);
+    if (distance < minDistance) {
+      nearestDegree = scaleIntervals[i];
+      minDistance = distance;
+    }
+  }
+
+  return nearestDegree;
+}
+
+
 
 
   /**

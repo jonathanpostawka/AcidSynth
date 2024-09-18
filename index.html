@@ -146,6 +146,39 @@
         <label for="tempo">Tempo (BPM):</label>
         <input type="number" id="tempo" name="tempo" min="60" max="200" value="120" aria-label="Tempo Input">
 
+	<!-- Root Note Selector -->
+<label for="root-note">Root Note:</label>
+<select id="root-note" aria-label="Root Note Selector">
+  <option value="C">C</option>
+  <option value="C#">C#</option>
+  <option value="D">D</option>
+  <option value="D#">D#</option>
+  <option value="E">E</option>
+  <option value="F">F</option>
+  <option value="F#">F#</option>
+  <option value="G">G</option>
+  <option value="G#">G#</option>
+  <option value="A">A</option>
+  <option value="A#">A#</option>
+  <option value="B">B</option>
+</select>
+
+<!-- Scale Selector -->
+<label for="scale">Scale/Mode:</label>
+<select id="scale" aria-label="Scale Selector">
+  <option value="major">Major</option>
+  <option value="minor">Minor</option>
+  <option value="dorian">Dorian</option>
+  <option value="phrygian">Phrygian</option>
+  <option value="lydian">Lydian</option>
+  <option value="mixolydian">Mixolydian</option>
+  <option value="aeolian">Aeolian</option>
+  <option value="locrian">Locrian</option>
+</select>
+
+<!-- Apply Key Button -->
+<button id="apply-key">Apply Key</button>
+
         <!-- Playback Mode Selector -->
         <label for="playback-mode">Playback Mode:</label>
         <select id="playback-mode" name="playback-mode" aria-label="Playback Mode Selector">
